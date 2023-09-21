@@ -7,30 +7,60 @@
     <title>Your Personal Blog</title>
 </head>
 <body>
-    <div class="container">
-        <div class="intro-box">
-            <img src="me.png" alt="Your Profile Picture" class="profile-picture">
-            <div class="intro-text">
-                <h1>Your Name</h1>
-                <p>Write a short introduction about yourself here. Tell your readers what your blog is about and what they can expect to find.</p>
+    <header>
+        <div class="top-section">
+            <div class="name-section">
+                <h1>Md Nafis Ul Haque Shifat</h1>
+            </div>
+            <div class="about-link">
+                <a href="about.html">About</a>
             </div>
         </div>
-        
-        <!-- Blog Posts -->
-        <div class="blog-post">
-            <h2>Blog Post Title 1</h2>
-            <p>This is your blog post content. You can write your thoughts, share stories, and provide valuable information here.</p>
-            <a href="#" class="read-more-button">Read More</a>
-        </div>
+        <hr class="separator">
+    </header>
+    
+    <div class="container">
+        <main>
+            <!-- Add clickable tags for filtering -->
+            <div class="tags">
+                <a href="#" class="tag" data-tag="all">All</a>
+                <a href="#" class="tag" data-tag="programming">Programming</a>
+                <a href="#" class="tag" data-tag="travel">Travel</a>
+                <!-- Add more tags as needed -->
+            </div>
+            
+            <!-- Blog Posts -->
+            <div class="blog-post" data-tags="programming">
+                <div class="blog-type">Programming</div>
+                <h2><a href="blog1.html">Blog Post Title 1</a></h2>
+                <p class="description">This is a short description of the blog content. You can write a brief summary here.</p>
+                <div class="date-tags">
+                    <p class="date">Date: September 21, 2023</p>
+                    <div class="tags">
+                        <span class="tag">C++</span>
+                        <span class="tag">Programming</span>
+                    </div>
+                </div>
+            </div>
 
-        <div class="blog-post">
-            <h2>Blog Post Title 2</h2>
-            <p>This is another blog post content. Feel free to express yourself and engage your readers with interesting topics.</p>
-            <a href="#" class="read-more-button">Read More</a>
-        </div>
-        
-        <!-- Add more blog posts as needed -->
+            <div class="blog-post" data-tags="travel">
+                <div class="blog-type">Travel</div>
+                <h2><a href="blog2.html">Blog Post Title 2</a></h2>
+                <p class="description">This is another short description of a different blog post.</p>
+                <div class="date-tags">
+                    <p class="date">Date: September 22, 2023</p>
+                    <div class="tags">
+                        <span class="tag">Travel</span>
+                        <span class="tag">Adventure</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add more blog posts as needed -->
 
+        </main>
     </div>
+
+    <script src="script.js"></script> <!-- Include JavaScript file for filtering -->
 </body>
 </html>

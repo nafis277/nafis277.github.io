@@ -7,69 +7,156 @@ body, h1, p {
 /* Global styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5; /* Background color for the whole page */
+    background-color: hsl(0, 0%, 97.3%); /* Background color for the whole page */
+}
+
+header {
+    background-color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow to header */
+}
+
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.name-section h1 {
+    font-size: 24px;
+}
+
+.about-link a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+.separator {
+    border: none;
+    border-top: 1px solid #ccc;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: #fff; /* Background color for the content area */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a shadow to the content area */
-}
-
-/* Intro Box */
-.intro-box {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
     padding: 20px;
-    border-radius: 5px;
-    background-color: #3498db; /* Background color for the intro box */
-    color: #fff; /* Text color */
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.profile-picture {
-    height: 65px;
-    width: 50px;
-    border-radius: 50%;
-    margin-right: 20px;
-}
-
-.intro-text {
+aside {
     flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 20%; /* Reduce the width of the sidebar further */
+    position: sticky; /* Make the sidebar sticky */
+    top: 20px; /* Adjust top position to prevent overlap with header */
 }
 
-/* Blog Post Styles */
-.blog-post {
-    margin-top: 20px;
+.profile-box img {
+    max-width: 100%;
+    max-height: 100%; /* Adjust the maximum height for the profile picture */
+    border-radius: 50%;
+}
+
+.caption {
+    margin-top: 10px;
+}
+
+.contact-info p {
+    margin-top: 10px;
+}
+
+main {
+    flex: 2;
     padding: 20px;
+    margin-left: 10%; /* Adjust the margin to center the main content */
+    width: 70%; /* Increase the width of the main content */
+}
+
+/* Styles for Tags */
+.tags {
+    margin-bottom: 20px;
+}
+
+.tag {
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: #fff;
+    border-radius: 15px;
+    margin-right: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Styles for Blog Posts */
+.blog-post {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
     border-radius: 5px;
-    background-color: #fff; /* Background color for each blog post */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a shadow to each blog post */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.blog-type {
+    background-color: #3498db;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+    font-size: 12px;
 }
 
 .blog-post h2 {
     font-size: 24px;
-    color: #333; /* Title color */
-}
-
-.blog-post p {
-    font-size: 16px;
-    line-height: 1.5;
-    color: #666; /* Text color */
-}
-
-.read-more-button {
-    display: inline-block;
     margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #3498db; /* Button background color */
-    color: #fff; /* Button text color */
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
 }
 
-.read-more-button:hover {
-    background-color: #2980b9; /* Hover state background color */
+
+.blog-post h2 a {
+    text-decoration: none;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #333; /* Change link color */
+}
+
+
+
+.description {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.date-tags {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.date {
+    font-size: 12px;
+    font-style: italic;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+.tags .tag {
+    background-color: hsl(0, 0%, 90.9%);
+    color: hsl(0, 0%, 52.3%);
+    padding: 3px 8px;
+    border-radius: 10px;
+    margin-right: 5px;
+    display: inline-block;
+    font-size: 12px;
+}
+
+/* Hover effect on blog posts */
+.blog-post:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
