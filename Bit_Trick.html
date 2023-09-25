@@ -6,15 +6,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>note</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
+  <style>
+    .menu-icon {
+        display: inline-block;
+        cursor: pointer;
+        padding: 5px;
+        margin-left: auto;
+        position:absolute;
+        right: 10px;
+    }
+
+    .menu-icon .bar {
+        width: 30px;
+        height: 3px;
+        background-color: #fff;
+        margin: 6px 0;
+        transition: 0.4s;
+    }
+
+    .menu-icon.active .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .menu-icon.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-icon.active .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+</style>
 </head>
 
 <body class="stackedit">
   <header>
     <div id="Menu" style="height:40px;background: #344B4C;width: 100%; margin: auto; transition: height 200ms linear; overflow: hidden;">
-        <img src="menu.png" style="cursor: pointer;height: 20px; width:20px; float: right; margin-right: 22px; margin-top: 9px;" onclick="var element = document.getElementById('Menu'); var currentHeight = parseInt(element.style.height); if (currentHeight === 40) { element.style.height = '115px'; } else if (currentHeight === 115) { element.style.height = '40px'; }"/>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    
+        <script>
+            function toggleMenu() {
+                const menuIcon = document.querySelector('.menu-icon');
+                menuIcon.classList.toggle('active');
+                var element = document.getElementById('Menu');
+                var currentHeight = parseInt(element.style.height);
+                if (currentHeight === 40) {
+                     element.style.height = '115px';
+                } else if (currentHeight === 115) { 
+                    element.style.height = '40px'
+                }
+            }
+        </script>
         <br>
+        
         <ul style="color: white;">
-            <li> <a style= "font-family: 'Courier New', Courier, monospace; font-size:15; text-decoration: none; color: white;" href="https://nafis277.github.io/"> Home </a></li>
+            <li> <a style= "font-family: 'Courier New', Courier, monospace; font-size:15; text-decoration: none; color: white;" href="./index.html"> Home </a></li>
             <li> <a style= "font-family: 'Courier New', Courier, monospace; font-size:15; text-decoration: none; color: white;"> About </a></li>
         </ul>
     </div>

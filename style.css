@@ -135,6 +135,7 @@ main {
 .description {
     font-size: 16px;
     margin-top: 10px;
+    font-family:Georgia, 'Times New Roman', Times, serif
 }
 
 .date-tags {
@@ -147,7 +148,8 @@ main {
 .date {
     font-size: 12px;
     font-style: italic;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-left: auto;
 }
 
 .tags .tag {
