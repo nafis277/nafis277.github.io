@@ -8,23 +8,14 @@
 </head>
 <body>
     <header>
-        <!-- Top Section -->
-        <div class="top-section">
-            <!-- Profile Picture -->
-            <div class="profile-image">
-                <img src="photos/tomdp.jpg" alt="Your Profile Picture">
-            </div>
-            <!-- Name -->
-            <div class="name-section">
-                <h1>Md Nafis Ul Haque Shifat</h1>
-            </div>
-            <!-- About Link -->
-            <div class="about-link">
-                <a href="#">About</a>
-            </div>
+        <div id="Menu" style="height:40px;background: #344B4C;width: 100%; margin: auto; transition: height 200ms linear; overflow: hidden;">
+            <img src="./photos/menu.png" style="cursor: pointer;height: 20px; width:20px; float: right; margin-right: 22px; margin-top: 9px;" onclick="var element = document.getElementById('Menu'); var currentHeight = parseInt(element.style.height); if (currentHeight === 40) { element.style.height = '115px'; } else if (currentHeight === 115) { element.style.height = '40px'; }"/>
+            <br><br>
+            <ul style="color: white;">
+                <li> <a style= "font-family: 'Courier New', Courier, monospace; font-size:15; text-decoration: none; color: white;" href="/index.html"> Home </a></li>
+                <li> <a style= "font-family: 'Courier New', Courier, monospace; font-size:15; text-decoration: none; color: white;"> About </a></li>
+            </ul>
         </div>
-        <!-- Horizontal Line -->
-       <hr>
     </header>
     
     <div class="container">
