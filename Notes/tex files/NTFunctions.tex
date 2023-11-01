@@ -1,0 +1,365 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{environ}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{hyperref}
+
+\title{Number Theoretic Functions}
+\author{Md Nafis Ul Haque Shifat}
+\date{October 23, 2023}
+\usepackage{minted}
+
+\newtheorem{thrm}{Theorem}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{clry}{Corollary}
+\NewEnviron{theorem}{
+  \begin{coloredbox}
+    \begin{thrm}
+      \BODY
+    \end{thrm}
+  \end{coloredbox}
+}
+
+\NewEnviron{corollary}{
+  \begin{coloredbox2}
+    \begin{clry}
+      \BODY
+    \end{clry}
+  \end{coloredbox2}
+}
+
+
+\newtcolorbox{coloredbox}{
+  colframe=black,
+  colback=white!95!black,
+  arc=0pt,
+  boxrule=-1pt,
+  leftrule=2pt,
+  left=0pt,
+  top=0pt,
+  bottom=0pt,
+}
+
+\newtcolorbox{coloredbox2}{
+  colframe=gray,
+  colback=white!95!black,
+  arc=0pt,
+  boxrule=-1pt,
+  leftrule=2pt,
+  left=0pt,
+  top=0pt,
+  bottom=0pt,
+}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{Multiplicative Function}
+\begin{definition}[Multiplicative Function]
+    A number-theoretic function $f$ is \textbf{multiplicative} if $f(1) = 1$ and $f(mn) = f(m) f(n)$,  $\forall m, n \in \mathbb{N}$ such that $gcd(m, n)  = 1$. Additionally, $f$ is called \textbf{completely multiplicative} if $f(mn) = f(m)f(n)$, $\forall m,n \in \mathbb{N}$.
+\end{definition}
+\subsection*{Examples.}
+\begin{itemize}
+    \item $1(n) = 1$: The constant function.
+    \item $Id(n) = n$: The identity function.
+    \item $
+        \varepsilon(n) = 
+        \begin{cases}
+        1 & \text{if } n = 1 \\
+        0 & \text{if } n > 1
+        \end{cases}
+        $ : The unit function
+    \item $\tau(n) = \sum \limits_{d | n} 1$: The number of divisors function.
+    \item $\sigma(n) = \sum \limits_{d|n} d$: The sum of divisors function.
+    \item $\phi(n) = \sum \limits_{i=1}^{n}  [gcd(i, n) = 1]$: Euler's Totient Function (here the third brackets serve as a boolean function, which returns $1$ if the condition is true, $0$ otherwise.)
+\end{itemize}
+Note that $1, Id, \varepsilon$ are completely multiplicative as well, while $\phi, \tau, \sigma$ aren't.
+\begin{theorem}
+    If $f$ is a multiplicative function and if $n = \prod \limits_{i = 1}^{r} {p_i}^{e_i}$, then $f(n) =  \prod \limits_{i = 1}^{r} f({p_i}^{e_i})$.
+\end{theorem}
+\begin{proof}
+    Since $gcd({p_i}^{e_i}, {p_j}^{e_j}) = 1$, $\forall i \neq j$, induction on $r$ proves the theorem.
+\end{proof}
+\section{Dirichlet Convolution}
+\begin{definition}[Dirichlet Convolution]
+  If $f$ and $g$ are two arithmetic functions, then their \textbf{dirichlet convolution}, denoted by $f * g$, is defined as $$ (f * g)(n) = \sum \limits_{d | n} f(d) g(n / d) $$ Alternatively, we can write $(f * g)(n) = \sum \limits_{ab = n} f(a) g(b)$.
+\end{definition}
+\subsection*{Properties of Dirichlet Convolution}
+\begin{itemize}
+  \item Convolution is Commutative: $f * g = g * f$  
+  \item It is Associative: $(f * g) * h = f * (g * h)$ 
+  \begin{proof}
+    $((f * g) * h)(n) = \sum \limits_{dc = n} (f * g)(d) h(c) = \sum \limits_{dc = n} \sum \limits_{ab = d} f(a) g(b) h(c) = \sum \limits_{abc = n} f(a) g(b) h(c)$
+    \\ \\Similarly, 
+    $(f * (g * h))(n) = \sum \limits_{ad = n} f(a) (g * h)(d) = \sum \limits_{ad = n} f(a) \sum \limits_{bc = d} g(b) h(c) = \sum \limits_{abc = n} f(a) g(b) h(c)$
+  \end{proof}
+  \item $f * \varepsilon = f$
+  \begin{proof}
+   $$(f * \varepsilon) (n) = \sum \limits_{d|n} f(d) \varepsilon(n / d)$$
+  Now if $d < n$, $n / d > 1$, so $\varepsilon(n / d) = 0$. Therefore
+  $$(f * \varepsilon)(n) = f(n) \varepsilon(1) = f(n)$$
+  \end{proof}
+\end{itemize}
+\begin{theorem}
+  if $f$ and $g$ are both multiplicative, so is $f * g$.
+\end{theorem}
+\begin{proof}
+  Let $h = f * g$. Now, if $gcd(m, n) = 1$, 
+  $$ h(mn) = \sum \limits_{d|mn} f(d) g(mn/d)$$
+  Now since $d| mn$ and $gcd(m, n) = 1$, $d = ab$ where $a|m, b|n$ and $gcd(a, b) = 1$. Hence,
+  \begin{align*}
+    h(mn) &= \sum \limits_{a|m, b|n} f(ab) g(mn/ab)\\
+          &= \sum \limits_{a|m, b|n} f(a) f(b) g(m/a) g(n/b)\\
+          &= \sum \limits_{a | m} f(a) g(m/a) \sum \limits_{b|n} f(b) g(n/b) \\
+          &= h(m) h(n)
+  \end{align*}
+\end{proof}
+\begin{corollary}
+  if $f$ is a multiplicative function, and $F(n) = \sum_{d|n} f(n)$, $F$ is multiplicative as well.
+\end{corollary}
+\begin{proof}
+  $F(n) = \sum \limits_{d|n} f(n) = \sum \limits_{d|n} f(n) 1(\frac{n}{d}) = (f * 1)(n)$. \\Since $f,1$ both are multiplicative, by \textbf{theorem 2}, $F$ is also multiplicative.
+\end{proof}
+\begin{theorem}
+  if $h = f * g$ and $h, g$ are both multiplicative, so is $f$.
+\end{theorem}
+\begin{proof}
+ Suppose $f$ is not multiplicative. So, there exists a pair of positive integers (m, n) with $gcd(m, n) = 1$ such that $f(mn) \neq f(m) f(n)$. We take such a pair with smallest $mn$.\\ \\
+ If $mn = 1$ then $f(1) \neq f(1) f(1)$ which implies $f(1) \neq 1$. Now since $g$ is multiplicative, $g(1) = 1$. But $h(1) = (f * g)(1) = f(1) g(1) \neq 1$ since $f(1) \neq 1$. This is a contradiction since $h$ is multiplicative and $h(1) = 1$. \\
+ If $mn > 1$ then
+ \begin{align*}
+    h(mn) &= \sum \limits_{d|mn} f(d) g(mn/d)\\
+          &= \sum \limits_{a|m, b|n} f(ab) g(mn/ab)\\
+          &= \sum \limits_{a|m, b|n, ab < mn} f(a) f(b) g(m/a) g(n/b) + f(mn) g(1)\\
+          &= \sum \limits_{a|m, b|n} f(a) f(b) g(m/a) g(n/b) - f(m) f(n) + f(mn) \\
+          &= \sum \limits_{a|m} f(a) g(m/a) \sum \limits_{b|n} f(b) g(n/b) - f(m) f(n)+ f(mn)\\
+          &= h(m) h(n) - f(m)f(n) + f(mn)
+ \end{align*}
+ Now if $h$ is multiplicative, $f(m)f(n) = f(mn)$, which implies $f$ is multiplicative as well.
+\end{proof}
+\begin{definition}[Dirichlet Inverse]
+  If $f$ is an arithmetic function, we call $g$ \textbf{dirichlet inverse} of $f$, denoted by $f^{-1}$, if $f * g = \varepsilon$.
+\end{definition}
+Recall that $\varepsilon$ is the unit function: $\varepsilon(n) = 
+\begin{cases}
+1 & \text{if } n = 1 \\
+0 & \text{if } n > 1
+\end{cases}
+$
+\begin{theorem}
+  If $f$ is an arithmetic function where $f(1) \neq 0$, then $f^{-1}$ exists.
+\end{theorem}
+\begin{proof}
+  Let $g = 
+  \begin{cases}
+    \frac{1}{f(1)} & \text{if } n = 1 \\
+    -\frac{\sum \limits_{d|n, d < n}^{} f(n / d) g(d)}{f(1)} & \text{if } n > 1
+  \end{cases}
+  $
+  Clearly, $(f * g)(1) = 1$. Now for $n > 1$,
+  \begin{align*}
+    (f * g)(n) &= (g * f)(n) \\
+               &= \sum \limits_{d|n} g(d) f(n / d) \\
+               &= g(n)f(1) + \sum \limits_{d|n, d < n} g(d) f(n / d)
+  \end{align*}
+  Now, $$g(n) = -\frac{\sum \limits_{d|n, d < n} g(d) f(n / d)}{f(1)}\implies -g(n) f(1) = \sum \limits_{d|n, d < n} g(d) f(n / d)$$
+  So, $(f * g)(n) = g(n)f(1) - g(n)f(1) = 0$. Hence, $(f * g) = \varepsilon$, thus $g = f^{-1}$.
+\end{proof}
+\begin{corollary}
+If $f$ is multiplicative, so is $f^{-1}$
+\end{corollary}
+\begin{proof}
+Since $\varepsilon = f * f^{-1}$, and both $\varepsilon$ and $f$ ar multiplicative, by \textbf{theorem 3}, $f^{-1}$ is also multiplicative.
+\end{proof}
+\section{More on common multiplicative functions}
+\subsection{Number-of-Divisors Function}
+Let $\tau(n)$ denote the number of divisors of $n$. So, $\tau(n) = \sum_{d|n} 1$. It is easy to see that $\tau$ is multiplicative, since $\tau(n) = \sum_{d|n} 1 = \sum_{d|n} 1(d) 1(n/d) = (1 * 1)(n)$. Recall $1(n)$ is the constant function, which is completely multiplicative. Hence, by \textbf{theorem 2}, $\tau$ is also multiplicative.\\
+Now it is easy to derive the formula of this function. What is $\tau(p^x)$ where $p$ is prime? Of course the divisors of $p^x$ are $1, p, p^2, \dots, p^x$, so total (x + 1) divisors. Now for any $n = \prod_{i = 1}^{r} {p_i}^{e_i}$, we can simply apply \textbf{theorem 1} and get $\tau(n) = \prod_{i = 1}^{r} (e_i + 1)$. $\tau(n)$ can be calculated with a simple loop in $O(\sqrt n)$.
+\subsection{Sum-of-Divisors Function}
+The sum of divisors function is denoted by $\sigma$. We can write $\sigma(n) = \sum_{d|n} d$. Similar to the previous function, we can write $\sigma(n) = \sum_{d|n} d = \sum_{d|n} Id(d) 1(n / d) = (Id * 1)(n)$. Since $Id$ and $1$ are both multiplicative, by \textbf{theorem 2}, $\sigma$ is also multiplicative. \\
+Now, note that for a prime $p$, $\sigma(p^x) = 1 + p + p^2 + \dots + p^x = \frac{p^{x+1} - 1}{p - 1}$. So, for $n = \prod_{i = 1}^{r} {p_i}^{e_i}$, $\sigma(n) = \prod_{i = 1}^{r} \frac{{p_i}^{e_i + 1} - 1}{p_i - 1}$. 
+\subsection{M\"{o}bius Function}
+\begin{definition}
+  For a positive integer $n$, the \textbf{m\"{o}bius function}, denoted by $\mu$, is defined as,
+  $$\mu(n) = \begin{cases}
+    1 & \text{if } n = 1 \\
+    0 & \text{if } p^2 | n \text{ for some prime } p\\
+    (-1)^r & \text{if } n = p_1 p_2 \dots p_r, \text{ where } p_i \text{ are distinct primes}
+    \end{cases}$$
+\end{definition}
+The next theorem shows a very important property of m\"{o}bius function.
+\begin{theorem}
+  $\sum_{d | n} \mu(d) = 
+  \begin{cases}
+    1 & \text{if } n = 1 \\
+    0 & \text{if } n > 1
+  \end{cases} = \varepsilon(n)
+  $
+\end{theorem}
+\begin{proof}
+  For $n = 1$, $\sum_{d|n} \mu(d) = \mu(1) = 1$ \\
+  When $n > 1$, let $n = \prod_{i = 1}^{r} {p_i}^{e_i}$. If $d|n$, then $d = \prod_{i = 1}^{r} {p_i}^{f_i}$, where $f_i \leq e_i$, for $1 \leq i \leq r$. Now if $\exists i$ such that $f_i > 1$, $\mu(d)$ will be $0$. So, the only divisors we care about are the ones with $f_i \leq 1, \forall i$. This means we have $r$ distinct primes, and we will go through each possible combinations and add their contribution to the sum accordingly. For example, if $d$ contains $k$ primes, then we have $\binom{r}{k}$ possible values for $d$, and each of them will contribute $(-1)^k$ to the sum. So, 
+  \begin{align*}
+    \sum \limits_{d|n} \mu(d) &= \sum \limits_{\substack{(f_1, f_2, \dots, f_r) \\ f_i \in \{0, 1\}}} \mu(\prod_{i=1}^{r} {p_i}^{f_i}) \\
+                              &= (-1)^0 \binom{r}{0} + (-1)^1 \binom{r}{1} + \dots + (-1)^r \binom{r}{r}\\
+                              &= \sum \limits_{i = 0}^{r} \binom{r}{i} (-1)^i \\
+                              &= (1 - 1)^r \\
+                              &= 0
+  \end{align*}
+\end{proof}
+We also conclude that $\mu$ is \textbf{multiplicative} from this theorem, since,
+$$\sum_{d|n} \mu(d) = \sum_{d|n} \mu(d) 1(n/d) = (\mu * 1)(n) = \varepsilon(n)$$
+This implies $\mu$ is the dirichlet inverse of the constant function. So, by \textbf{Corollary 2}, $\mu$ is multiplicative. Since $\mu$ is the dirichlet inverse of the constant function, using the definition of $g$ in \textbf{theorem 4}, we can write that,
+$$\mu(n) = \sum_{d|n, d < n} -\mu(d)$$
+Now we can use this in sieve to calculate the value of m\"{o}bius function for integers from $1$ to $n$. Here's an implementation in C++:
+\begin{minted}{cpp}
+mu[1] = 1;
+for(int i = 1; i < N; i++) {
+    for(int j = 2 * i; j < N; j+=i) {
+        mu[j] -= mu[i];
+    }
+}
+\end{minted}
+This is basically the standard sieve: instead of iterating over $d$ for each $n$, for each $d$, we loop over its multiples and add its contribution to the answer of the multiples. So, it runs in $O(n \log n)$ time.
+\subsection{Euler's Totient Function}
+\begin{definition}
+  For a positive integer $n$, \textbf{Euler's Totient Function}, denotes as $\phi(n)$, is defined as the number of positive integers $i$ up to $n$ such that $gcd(i, n) = 1$.
+\end{definition}
+For example, $\phi(4) = 2$, since from 1 to 4, only $1$ and $3$ are coprimes with $4$.
+\begin{theorem}
+  $\sum_{d|n} \phi(d) = n$
+\end{theorem}
+\begin{proof}
+  Let $S_d$ be the set of all positive integers up to $n$ whose gcd with $n$ is $d$. Now, $gcd(n, m) = d$ implies $gcd(n/d, m/d) = 1$. By definition, the number of such $m$ is $\phi(n / d)$. So,
+  $$ \sum_{d|n} |S_d| = \sum_{d|n} \phi(n / d)$$
+  Clearly, the sets $S_d$ for all $d$ are pairwise disjoint. Moreover, for every integer $1 \leq k \leq n$, there exists a $d$ such that $d|n$ and $k \in S_d$. Hence, $\sum_{d|n} |S_d| = \sum_{d|n} \phi(n / d) = \sum_{d|n} \phi(d) = n$.
+\end{proof}
+Since, $\sum_{d|n}\phi(d) = \sum_{d|n} \phi(d) 1(n / d) = (\phi * 1)(n) = Id(n)$, we also see that $\phi$ is a multiplicative function. \\
+Note that if $p$ is prime, $\phi(p) = p - 1$, and $\phi(p^k) = p^k - p^{k - 1} = p^{k - 1}(p - 1)$. So, if $n = \prod_{i = 1}^{r} {p_i}^{e_i}$, by \textbf{theorem 1}, we get 
+$$\phi(n) = \prod_{i = 1}^{r} {p_i}^{e_i - 1}(p_i - 1) = \prod_{i = 1}^{r} {p_i}^{e_i} \frac{(p_i - 1)}{p_i} = n \prod_{i = 1}^{r} (1 - \frac{1}{p_i})$$
+which is the well-known formula for calculating $\phi(n)$.
+\\About implementation, we can simply initialize $\phi(n) = n$, and for each prime divisor $p$, we update its value by multiplying it with $(1 - \frac{1}{p}) = \frac{p - 1}{p}$. Here's the code: 
+\begin{minted}{cpp}
+for (int i = 1; i <= n; i++) phi[i] = i; 
+for(int p = 2; p <= n; p++) {
+  if (phi[p] == p) {
+    phi[p] = p - 1;
+    for (int i = 2 * p; i <= n; i += p) {
+      phi[i] = (phi[i] / p) * (p - 1);
+    }
+  }
+}
+\end{minted}
+\section{The M\"{o}bius Inversion}
+\begin{theorem}
+  Let $f$ and $g$ be two arithmetic functions. Then,  $g(n) = \sum_{d|n} f(d)$ if and only if $f(n) = \sum_{d|n} g(d) \mu(n / d)$.
+\end{theorem}
+\begin{proof}
+ Note that $g(n) = \sum_{d|n} f(d) = \sum_{d|n} f(d) 1(n /d) = (f * 1)(n)$, which implies $g = f * 1$. \\
+ Similarly, $f(n) = \sum_{d|n} g(d) \mu(n / d) =  (g * \mu)(n)$, which implies $f = g * \mu.$
+ Hence it suffices to show that $g = f * 1$ if and only if $f = g * \mu$. \\
+ $$g * \mu = (f * 1) * \mu = f * (1 * \mu) = f * \varepsilon = f$$.
+ Now for converse, $$f * 1 = (g * \mu) * 1 = g * (1 * \mu) = g * \varepsilon = g$$.
+\end{proof}
+I kept this single theorem in a separate section only because it is probably the most useful part of the entire note!
+\section{Problems}
+\textbf{Problem 1.} Given $n$, calculate the number of pairs $(i, j)$ such that $i, j \in [1, n]$ and $gcd(i, j) = 1$. \\
+\textbf{Solution.} We basically need to find the value of $\sum_{i = 1} \sum_{j = 1} [gcd(i, j) = 1]$. Now note that $[gcd(i, j) = 1] = \varepsilon(gcd(i, j))$. Hence,
+
+  $$\sum_{i = 1}^{n} \sum_{j = 1}^{n} [gcd(i, j) = 1] = \sum_{i = 1}^{n} \sum_{j = 1}^{n} \varepsilon(gcd(i, j)) = \sum_{i = 1}^{n} \sum_{j = 1}^{n} \sum_{d | gcd(i, j)} \mu(d)$$
+Now, $d|gcd(i, j)$ means $d | i$ and $d|j$. So, 
+\begin{align*}
+\sum_{i = 1}^{n} \sum_{j = 1}^{n} \sum_{d | gcd(i, j)} \mu(d) &= \sum_{i = 1}^{n} \sum_{j = 1}^{n} \sum_{d = 1}^{n} [d \text{ } | \text{ } i] [d \text{ }| \text{ } j] \mu(d)\\
+                                                              &= \sum_{d = 1}^{n} \mu(d) \sum_{i = 1}^{n} [d \text{ }|\text{ } i] \sum_{j = 1}^{n} [d \text{ }|\text{ } j] \\
+                                                              &= \sum_{d = 1}^{n} \mu(d) {(\lfloor \frac{n}{d} \rfloor)}^2
+\end{align*}
+Note that the number of multiples of $d$ from $1$ to $n$ is $\lfloor \frac{n}{d} \rfloor$. We can calculate the value of $\mu(i)$ for integers up to $n$ with sieve, and calculate the final answer with a simple loop. \\
+The sequence $\lfloor \frac{n}{1} \rfloor, \lfloor \frac{n}{2} \rfloor, \dots, \lfloor \frac{n}{n} \rfloor$ contains at most $2\sqrt{n}$ unique values, so if we precalculate the $\mu(i)$, we can calculate the answer for each $n$ in $O(\sqrt{n})$ time.\\ \\
+\begin{minted}{cpp}
+  for (int l = 1, r; l <= n; l = r + 1) {
+    r = n / (n / i);
+    //now for all l <= i <= r, n / i is equal.
+  }
+\end{minted}
+\textbf{Problem 2.} Given $n$, calculate the number of pairs $(i, j)$ such that $1 \leq i < j \leq n$ and $gcd(i, j) = 1$. \\
+\textbf{Solution.} We need to calculate $\sum_{i = 1}^{n} \sum_{j = i + 1}^{n} [gcd(i, j) = 1]$. \\
+\begin{align*}
+  \sum_{i = 1}^{n} \sum_{j = i + 1}^{n} [gcd(i, j) = 1] &= \sum_{j = 2}^{n} \sum_{i = 1}^{j - 1} [gcd(i, j) = 1]\\
+                                                        &= \sum_{j = 2}^{n} \phi(j)
+\end{align*}
+Now it's a simple loop!\\
+\textbf{Problem 3.} Given $a, b, k$, calculate the number of pairs $(x, y)$ such that $x \in [1, a], y \in [1, b]$ and $gcd(x, y) = k$. Also, $(x, y)$ and $(y, x)$ are considered the same.\\
+\textbf{Solution.} First of all, note that $gcd(x, y) = k$ implies that $gcd(x/k, y/k) = 1$. Hence, we need to find $\sum_{i = 1}^{\lfloor \frac{a}{k} \rfloor} \sum_{j = 1}^{\lfloor \frac{b}{k} \rfloor} [gcd(i, j) = 1]$.\\
+Let $n = \lfloor \frac{a}{k} \rfloor$ and $m = \lfloor \frac{b}{k} \rfloor$. For simplicity, let's assume $n \geq m$ (otherwise we can simply swap $n$, $m$). We need to calculate $\sum_{i = 1}^{n} \sum_{j = 1}^{min(m, i)} [gcd(i, j) = 1]$.\\
+\begin{align*}
+  \sum_{i = 1}^{n} \sum_{j = 1}^{min(m, i)} [gcd(i, j) = 1] &= \sum_{i = 1}^{m} \sum_{j = 1}^{i} [gcd(i, j) = 1] + \sum_{i = m + 1}^{n} \sum_{j = 1}^{m} [gcd(i, j) = 1] \\
+                                                                &= \sum_{i = 1}^{m} \phi(i) + \sum_{i = m + 1}^{n} \sum_{j = 1}^{m} \sum_{d | gcd(i, j)} \mu(d) \\
+                                                                &= \sum_{i = 1}^{m} \phi(i) + \sum_{i = m + 1}^{n} \sum_{j = 1}^{m} \sum_{d | i, d | j} \mu(d) \\
+                                                                &= \sum_{i = 1}^{m} \phi(i) + \sum_{i = m + 1}^{n} \sum_{j = 1}^{m} \sum_{d = 1}^{m} [d \text{ }| \text{ } i] [d \text{ }| \text{ }j] \mu(d) \\
+                                                                &= \sum_{i = 1}^{m} \phi(i) + \sum_{d = 1}^{m} \mu(d) \sum_{i = m + 1}^{n} [d \text{ }| \text{ } i] \sum_{j = 1}^{m} [d \text{ }| \text{ }j] \\
+                                                                &= \sum_{i = 1}^{m} \phi(i) + \sum_{d = 1}^{m} \mu(d) (\lfloor \frac{n}{d} \rfloor - \lfloor \frac{m}{d} \rfloor) (\lfloor \frac{m}{d} \rfloor)
+\end{align*}
+Now you can calculate it with a simple loop in $O(m)$.\\ \\
+\textbf{Problem 4.} Given $n$, calculate $\sum_{i = 1}^{n} \sum_{j = 1}^{n} gcd(i, j)$.\\
+\textbf{Solution.} From \textbf{theorem 6}, we know that $\sum_{d|n} \phi(d) = n$. So,
+\begin{align*}
+  \sum_{i = 1}^{n} \sum_{j = 1}^{n} gcd(i, j) &= \sum_{i = 1}^{n} \sum_{j = 1}^{n} \sum_{d | gcd(i, j)} \phi(d) \\
+                                              &= \sum_{i = 1}^{n} \sum_{j = 1}^{n} \sum_{d = 1}^{n} [d \text{ }| \text{ } i] [d \text{ }| \text{ }j]\phi(d) \\
+                                              &= \sum_{d = 1}^{n} \phi(d) (\sum_{i = 1}^{n} [d \text{ }| \text{ } i]) (\sum_{j = 1}^{n} [d \text{ }| \text{ } j]) \\
+                                              &= \sum_{d = 1}^{n} \phi(d) {\lfloor \frac{n}{d} \rfloor}^2
+\end{align*}
+which can be calculated in $O(\sqrt{n})$ for each $n$ after the sieve (which would take $O(n \log n)$ or $O(n)$ if you use linear sieve). \\ \\
+\textbf{Problem 5.} (\href{https://www.hackerrank.com/challenges/hyperrectangle-gcd/problem}{Hyperrectangle GCD})Let there be a $k$-dimensional hyperrectangle with dimensions $n_1, n_2, \dots n_k$. Each unit cell of the hyperrectangle is addressed by $(p_1, p_2, \dots , p_k)$ where $1 \leq p_i \leq n_i$ for all $i \leq k$. The value of a cell is the \textbf{gcd} of its coordinates. Calculate the sum of value over all cells of the hyperrectangle.\\
+\textbf{Solution.} We are basically asked to calculate the value of: 
+$$ \sum_{x_1 = 1}^{n_1} \sum_{x_2 = 1}^{n_2} \dots \sum_{x_k = 1}^{n_k} gcd(x_1, x_2, \dots, x_k)$$
+Let $cnt[x]$ be the number of such tuples whose gcd is $x$. Also, let $n = \min_{i = 1}^{k} n_i$. Then our answer will be $\sum_{g = 1}^{n} g \times cnt[g]$. We can write $g = \sum_{d | g} \phi(d)$. So,
+  $$\sum_{g = 1}^{n} g \times cnt[g] = \sum_{g = 1}^{n} \sum_{d | g} \phi(d) \times cnt[g]$$
+Instead of iterating over divisors $d$ of each $g$, we can iterate over multiples $g$ of each $d$. So,
+\begin{align*}
+  \sum_{g = 1}^{n} g \times cnt[g] &= \sum_{g = 1}^{n} \sum_{d | g} \phi(d) \times cnt[g]\\
+                                   &= \sum_{d = 1}^{n} \phi(d) \sum_{d | g} cnt[g]
+\end{align*}
+Now, $\sum_{d | g} cnt[g]$ is basically the number of tuples whose gcd is divisible by $d$. It is easy to see that the number of such tuples are $\lfloor \frac{n_1}{d} \rfloor \times \lfloor \frac{n_2}{d} \rfloor \times \dots \times \lfloor \frac{n_k}{d} \rfloor$. Hence the answer is,
+$$\sum_{d = 1}^{n} \phi(d) (\lfloor \frac{n_1}{d} \rfloor \times \lfloor \frac{n_2}{d} \rfloor \times \dots \times \lfloor \frac{n_k}{d} \rfloor)$$
+which is calulatable in $O(nk)$. \\
+\textbf{Problem 6.} (\href{https://codeforces.com/problemset/problem/439/E}{Devu and Birthday Celebration}) Answer $Q$ ($Q \leq 10^5$) queries: Given $n$ and $f$ ($n, f \leq 10^5$), calculate the number of ways to distribute $n$ sweets among $f$ friends so that if $i$-th friend got $a_i$ sweets, $a_i \geq 1$ for all $i$ and $gcd(a_1, a_2, \dots , a_f) = 1$. Note that the ordering matters: $a = [1, 2]$ and $a = [2, 1]$ are considered different. \\
+\textbf{Solution.} First of all, how many ways are there to distribute $n$ sweets among $f$ people so that everyone gets at least one sweet (ignoring the gcd condition)? For that, we can represent a distribution with a string of \textbf{`o'}and \textbf{`|'}, where \textbf{`o'} means we give a sweet to the current person and \textbf{`|'} means we move to the next person. For example, if $n = 6$ and $f = 3$, then \textbf{`oo|ooo|o'} denotes $a = \{2, 3, 1\}$. Since the string has $n$ \textbf{o}'s,we have $(n - 1)$ places to insert $(f - 1)$ \textbf{|}'s, which can be done in $\binom{n - 1}{f - 1}$ ways.\\
+Now for a fixed $f$, let $h(n)$ be the number of ways to distribute $n$ sweets among $f$ people so that everyone gets at least one sweet. From the explanation above, we get $h(n) = \binom{n - 1}{f - 1}$. Now let $f(n)$ be the number of ways to distribute $n$ sweets among $f$ people so that each gets at least $1$ and gcd of all $a_i$'s is $1$ (which is basically the answer of the problem). \\
+For a particular distribution, if $gcd(a_1, a_2, \dots a_f) = d$, then $d | n$.
+\begin{align*}
+  &a_1 + a_2 + \dots + a_f = n \\
+  \implies &d (a'_1 + a'_2 + \dots + a'_f) = n\\
+  \implies &a'_1 + a'_2 + \dots + a'_f = \frac{n}{d}
+\end{align*}
+where $gcd(a'_1, a'_2, \dots, a'_f) = 1$. Since $a'_1+ a'_2 +  \dots + a'_f = \frac{n}{d}$ and $gcd(a'_1, a'_2, \dots , a'_f) = 1$, by definition, the number of such $a'$ is $f(n / d)$. Hence, we get
+$$h(n) = \sum_{d | n} f(n / d) = \sum_{d | n} f(d)$$
+Finally, we can apply m\"{o}bius inversion! 
+$$f(n) = \sum_{d | n} h(d) \mu(n / d) = \sum_{d | n} \binom{d - 1}{f - 1} \mu(n / d)$$
+We can simply precalculate the $\mu(i)$ and the divisors for integer up to $10^5$ to answer the queries efficiently. \\
+\textbf{Problem 7.} (\href{https://www.codechef.com/LTIME13/problems/COPRIME3}{COPRIME3}) Given an array $a$ of length $n$ $(1 \leq a[i] \leq 10^6, 1 \leq n \leq 10^5)$, calculate the number of triplets $i < j < k$ such that $gcd(a[i], a[j], a[k]) = 1$. \\
+\textbf{Solution.} We basically need to calculate $\sum_{i = 1}^{n} \sum_{j = i + 1}^{n} \sum_{k = j + 1}^{n} [gcd(a[i], a[j], a[k]) = 1]$. So, 
+\begin{align*}
+  \sum_{i = 1}^{n} \sum_{j = i + 1}^{n} \sum_{k = j + 1}^{n} [gcd(a[i], a[j], a[k]) = 1] &= \sum_{i = 1}^{n} \sum_{j = i + 1}^{n} \sum_{k = j + 1}^{n} \varepsilon(gcd(a[i], a[j], a[k]))\\
+                                                                                         &= \sum_{i = 1}^{n} \sum_{j = i + 1}^{n} \sum_{k = j + 1}^{n} \sum_{d | gcd(a[i], a[j], a[k])} \mu(d) \\
+                                                                                         &= \sum_{d = 1}^{MAXV} \mu(d) \sum_{i = 1}^{n} \sum_{j = i + 1}^{n} \sum_{k = j + 1}^{n} [d | gcd(a[i], a[j], a[k])] \\
+\end{align*}
+Now, $d | gcd(a[i], a[j], a[k])$ implies $d$ separately divides each of them.\\ So, $\sum_{i = 1}^{n} \sum_{j = i + 1}^{n} \sum_{k = j + 1}^{n} [d | gcd(a[i], a[j], a[k])]$ is basically the number of triplets whose elements are divisible by $d$. If $cnt[d]$ is the number of elements in the array $a$ divisible by $d$, then number of such triplets will be $\binom{cnt[d]}{3}$. Calculating $cnt[]$ array is pretty easy: if $freq[x]$ is the number of occurrances of $x$, then $cnt[d] = \sum_{d | x} freq[x]$. Since we will be iterating over multiples for each $d$, it will take $O(n \log n)$ time. Hence we get the final answer:
+$$\sum_{d = 1}^{MAXV} \mu(d) \binom{cnt[d]}{3}$$
+\textbf{Problem 8.} (\href{https://codeforces.com/contest/547/problem/C}{CF Mike and Foam}) You are given an array $a$ and $q$ queries. ($|a|, q \leq 2 \times 10^5, a[i] \leq 5 \times 10^5$). You also have a list $L$, which is initially empty. In each query, you will be given an integer $x$. If $x \in L$, then you will remove $x$ from $L$, otherwise add $x$ to $L$. Then you need to output the number of pairs $(i, j)$ where $i < j$ and $i, j \in L$ such that $gcd(a_i, a_j) = 1$.\\
+\textbf{Solution. } Exercise. Check my code if needed \href{https://codeforces.com/contest/547/submission/230499666}{here}.
+\section*{References}
+\begin{itemize}
+  \item \href{https://en.wikipedia.org/wiki/Multiplicative_function}{Multiplicative Function, Wikipedia}
+  \item Beginning Number Theory, Neville Robbins
+  \item \href{https://codeforces.com/blog/entry/53925}{[Tutorial] Math note — Möbius inversion}
+\end{itemize}
+\end{document}
