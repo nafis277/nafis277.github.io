@@ -355,7 +355,14 @@ We can simply precalculate the $\mu(i)$ and the divisors for integer up to $10^5
 Now, $d | gcd(a[i], a[j], a[k])$ implies $d$ separately divides each of them.\\ So, $\sum_{i = 1}^{n} \sum_{j = i + 1}^{n} \sum_{k = j + 1}^{n} [d | gcd(a[i], a[j], a[k])]$ is basically the number of triplets whose elements are divisible by $d$. If $cnt[d]$ is the number of elements in the array $a$ divisible by $d$, then number of such triplets will be $\binom{cnt[d]}{3}$. Calculating $cnt[]$ array is pretty easy: if $freq[x]$ is the number of occurrances of $x$, then $cnt[d] = \sum_{d | x} freq[x]$. Since we will be iterating over multiples for each $d$, it will take $O(n \log n)$ time. Hence we get the final answer:
 $$\sum_{d = 1}^{MAXV} \mu(d) \binom{cnt[d]}{3}$$
 \textbf{Problem 8.} (\href{https://codeforces.com/contest/547/problem/C}{CF Mike and Foam}) You are given an array $a$ and $q$ queries. ($|a|, q \leq 2 \times 10^5, a[i] \leq 5 \times 10^5$). You also have a list $L$, which is initially empty. In each query, you will be given an integer $x$. If $x \in L$, then you will remove $x$ from $L$, otherwise add $x$ to $L$. Then you need to output the number of pairs $(i, j)$ where $i < j$ and $i, j \in L$ such that $gcd(a_i, a_j) = 1$.\\
-\textbf{Solution. } Exercise. Check my code if needed \href{https://codeforces.com/contest/547/submission/230499666}{here}.
+\textbf{Solution. } Exercise. Check my code if needed \href{https://codeforces.com/contest/547/submission/230499666}{here}.\\
+\textbf{Problem 9.} (\href{https://codeforces.com/contest/776/problem/E}{CF The Holmes Children}) Let $f(n)$ be the number of distinct positive integer pairs $(x, y)$ such that $x + y = n$ and $gcd(x, y) = 1$ (additionally, $f(1) = 1$). Let $g(n) = \sum_{d | n} f(d)$. Given $n$ and $k$, calculate $F_k (n)$, which is defined as:
+$$F_k(n) = \begin{cases}
+  f(g(n)) & \text{if } k = 1 \\
+  g(F_{k - 1}(n)) & \text{if } k > 1 \text{ and } k \text{ mod } 2 = 0 \\
+  f(F_{k - 1}(n)) & \text{if } k > 1 \text{ and } k \text{ mod } 2 = 1
+\end{cases}$$
+\textbf{Solution. } Exercise. 
 \section*{References}
 \begin{itemize}
   \item \href{https://en.wikipedia.org/wiki/Multiplicative_function}{Multiplicative Function, Wikipedia}
